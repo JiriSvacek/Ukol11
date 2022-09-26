@@ -74,9 +74,6 @@ public class TodoItemService {
     }
 
     public void editItem(TodoItem todoItem) throws SQLException {
-        System.out.println(todoItem.getDone());
-        System.out.println(todoItem.getItem());
-        System.out.println(todoItem.getId());
         Statement statement = connection.createStatement();
         statement.executeUpdate("UPDATE item SET message = '"
                 + todoItem.getItem() + "', isDone ="
