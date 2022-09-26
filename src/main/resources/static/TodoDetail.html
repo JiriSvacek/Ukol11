@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TODO Detail</title>
+</head>
+<body>
+
+<script>
+
+    function loadItem() {
+        var requestOptions = {
+            method: 'GET',
+            redirect: 'follow'
+        };
+
+        fetch("http://localhost:8080/todo/" + document.getElementById("id").value, requestOptions)
+            .then(response => response.json())
+            .then(result => {
+                console.log(result);
+
+
+                document.getElementById("item").value = result.item
+                document.getElementById("done").checked = result.done
+
+
+
+            })
+            .catch(error => console.log('error', error));
+    }
+
+    function saveItem() {
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+
+        var raw = JSON.stringify({
+            "id" : document.getElementById("id").value,
+            "item": document.getElementById('item').value,
+            "done": document.getElementById("done").checked
+        });
+
+        var requestOptions = {
+            method: 'PUT',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+
+        fetch("http://localhost:8080/todoDetail/", requestOptions)
+            .then(response => response.text())
+            .then(result => {console.log(result); load();})
+            .catch(error => console.log('error', error));
+    }
+
+
+</script>
+
+<div>
+    <textarea id="item" rows="4" cols="50">
+    </textarea>
+    <input id="done" type="checkbox">
+    <label for="done">Done</label>
+    <br>
+    <br>
+    <input id="id" type="text">
+    <button id="load-button" onclick="loadItem()">LOAD</button>
+    <button id="save-button" onclick="saveItem()">SAVE</button>
+</div>
+
+</body>
+</html>
